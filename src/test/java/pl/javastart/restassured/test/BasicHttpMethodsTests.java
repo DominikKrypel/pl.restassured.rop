@@ -1,6 +1,5 @@
 package pl.javastart.restassured.test;
 
-import groovy.util.logging.Slf4j;
 import org.testng.annotations.Test;
 import pl.javastart.main.pojo.Category;
 import pl.javastart.main.pojo.Pet;
@@ -69,47 +68,26 @@ public class BasicHttpMethodsTests {
     @Test
     public void givenExistingPetWhenUpdatePetNameThenPetIsChangedTest(){
 
-        String pet = "{\n" +
-                "  \"id\": 123,\n" +
-                "  \"category\": {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"dogs\"\n" +
-                "  },\n" +
-                "  \"name\": \"KilerekAldi\",\n" +
-                "  \"photoUrls\": [\n" +
-                "    \"http://photos.com/dog1.jpg\"\n" +
-                "  ],\n" +
-                "  \"tags\": [\n" +
-                "    {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"dogs-category\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"status\": \"available\"\n" +
-                "}";
+        Category category = new Category();
+        category.setId(1);
+        category.setName("dogs");
+
+        Tag tag = new Tag();
+        tag.setId(88);
+        tag.setName("KilerekAldi");
+
+        Pet pet = new Pet();
+        pet.setId(123);
+        pet.setCategory(category);
+        pet.setPhotoUrls(Collections.singletonList("http://photos.com/dog1.jpg"));
+        pet.setTags(Collections.singletonList(tag));
+        pet.setStatus("available");
 
         given().log().all().body(pet).contentType("application/json")
                 .when().post("https://swaggerpetstore.przyklady.javastart.pl/v2/pet")
                 .then().log().all().statusCode(200);
 
-        pet = "{\n" +
-                "  \"id\": 123,\n" +
-                "  \"category\": {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"dogs\"\n" +
-                "  },\n" +
-                "  \"name\": \"Anaconda\",\n" +
-                "  \"photoUrls\": [\n" +
-                "    \"http://photos.com/dog1.jpg\"\n" +
-                "  ],\n" +
-                "  \"tags\": [\n" +
-                "    {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"dogs-category\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"status\": \"available\"\n" +
-                "}";
+        pet.setName("hellfire");
 
         given().log().all().body(pet).contentType("application/json")
                 .when().put("https://swaggerpetstore.przyklady.javastart.pl/v2/pet")
@@ -119,24 +97,20 @@ public class BasicHttpMethodsTests {
         @Test
     public void givenExistingPetIdWhenDeletingPetThenIsDeletedTest() {
 
-        String pet = "{\n" +
-                "  \"id\": 445,\n" +
-                "  \"category\": {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"dogs\"\n" +
-                "  },\n" +
-                "  \"name\": \"dedimek\",\n" +
-                "  \"photoUrls\": [\n" +
-                "    \"http://photos.com/dog1.jpg\"\n" +
-                "  ],\n" +
-                "  \"tags\": [\n" +
-                "    {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"dogs-category\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"status\": \"available\"\n" +
-                "}";
+            Category category = new Category();
+            category.setId(1);
+            category.setName("dogs");
+
+            Tag tag = new Tag();
+            tag.setId(1);
+            tag.setName("dedimek");
+
+            Pet pet = new Pet();
+            pet.setId(445);
+            pet.setCategory(category);
+            pet.setPhotoUrls(Collections.singletonList("http://photos.com/dog1.jpg"));
+            pet.setTags(Collections.singletonList(tag));
+            pet.setStatus("available");
 
         given().log().all().body(pet).contentType("application/json")
                  .when().post("https://swaggerpetstore.przyklady.javastart.pl/v2/pet")
